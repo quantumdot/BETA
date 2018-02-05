@@ -75,12 +75,12 @@ class permutation:
                
             outf.close()
             inf.close()
-            run_cmd('rm %s'%infile)
+            run_cmd('rm "%s"'%infile)
     def prepare_ouput_basic(self):
         #this will be the last step for basic BETA, move all the result into output directory
         for f in self.output:
-            run_cmd("mv %s %s"%(f,self.outdir))
+            run_cmd('mv "%s" "%s"'%(f,self.outdir))
     def prepare_ouput_plus(self):
         #this will be the last step for basic BETA, move all the result into output directory
         for f in self.output:
-            run_cmd("cp %s %s"%(f,self.outdir))
+            run_cmd('cp "%s" "%s"'%(f,self.outdir))

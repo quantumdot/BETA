@@ -48,10 +48,10 @@ Ret: Validated options object.
     if not options.output:
         options.output = os.getcwd()
         options.output = os.path.join(options.output,'BETA_OUTPUT')
-        run_cmd('mkdir %s'%options.output)
+        run_cmd('mkdir "%s"'%options.output)
     else:
         if not os.path.isdir(options.output):
-            run_cmd('mkdir %s'%options.output)
+            run_cmd('mkdir "%s"'%options.output)
     if not options.expreinfo:
         if options.kind == 'LIM':
             options.expreinfo = '1,2,6'
@@ -138,10 +138,10 @@ Ret: Validated options object.
     if not options.output:
         options.output = os.getcwd()
         options.output = os.path.join(options.output,'BETA_OUTPUT')
-        run_cmd('mkdir %s'%options.output)
+        run_cmd('mkdir "%s"'%options.output)
     else:
         if not os.path.isdir(options.output):
-            run_cmd('mkdir %s'%options.output)
+            run_cmd('mkdir "%s"'%options.output)
             
     if not options.expreinfo:
         if options.kind == 'LIM':
@@ -223,10 +223,10 @@ Ret: Validated options object.
     if not options.output:
         options.output = os.getcwd()
         options.output = os.path.join(options.output,'BETA_OUTPUT')
-        run_cmd('mkdir %s'%options.output)
+        run_cmd('mkdir "%s"'%options.output)
     else:
         if not os.path.isdir(options.output):
-            run_cmd('mkdir %s'%options.output)
+            run_cmd('mkdir "%s"'%options.output)
 
     Info("Argument List: ")
     Info("Name = " + options.name)

@@ -293,7 +293,7 @@ class PScore:
             else:
                 pass
         outf.close()
-        run_cmd('mv %s_targets.txt %s'%(name, self.outdir))
+        run_cmd('mv "%s_targets.txt" "%s"'%(name, self.outdir))
         Info("Finished! result output to <%s_targets.txt>"%name)
         
     def noexprepeaks(self, name, genepeaks, distance):
@@ -311,5 +311,5 @@ class PScore:
                 d = (int(peak[2]) + int(peak[1]))/2 - gTSS
                 ps = score(abs(float(d))/float(distance))
                 outf.write(peak[0] + '\t' + str(peak[1]) + '\t' + str(peak[2]) + '\t' + peak[3] + '\t' + gene[1] + '\t' + gene[5] + '\t' + str(d) + '\t' + str(ps) + '\n')
-	run_cmd("mv %s_targets_associated_peaks.txt %s"%(name, self.outdir))
+	run_cmd('mv "%s_targets_associated_peaks.txt" "%s"'%(name, self.outdir))
         outf.close()

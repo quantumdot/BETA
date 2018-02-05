@@ -196,7 +196,7 @@ class expr_combine:
         #use gene's regulate potential score to select a significant gene list to show the rank, from this , it will output 2 files, one is a picture in pdf file /
         #the other is a pvalue file store the pvalue information of the up and down regulate gene list with ks-test in a txt file
         
-        command_line = "cp " + self.peakfile + " " + self.name + ".bed" # change the input peak file's name
+        command_line = 'cp "' + self.peakfile + '" "' + self.name + '.bed"' # change the input peak file's name
         run_cmd(command_line)
 
         if self.method == "score":
@@ -207,14 +207,14 @@ class expr_combine:
             #bedfile, reference, bglist, upgenes, downgenes, label1, label2, name, name2
             
         ## remove some redundent files
-        run_cmd("rm up_list.txt")
-        run_cmd("rm down_list.txt")
-        run_cmd("rm upgene.txt")
-        run_cmd("rm downgene.txt")
-        run_cmd("rm notdiff*.txt")
-        run_cmd("rm " + self.name + ".bed")
-        run_cmd('mv %s %s'%(self.name+'_function_prediction.pdf', self.outdir))
-        run_cmd('mv %s %s'%(self.name+'_function_prediction.R', self.outdir))
+        run_cmd('rm up_list.txt')
+        run_cmd('rm down_list.txt')
+        run_cmd('rm upgene.txt')
+        run_cmd('rm downgene.txt')
+        run_cmd('rm notdiff*.txt')
+        run_cmd('rm "' + self.name + '.bed"')
+        run_cmd('mv "%s" "%s"'%(self.name+'_function_prediction.pdf', self.outdir))
+        run_cmd('mv "%s" "%s"'%(self.name+'_function_prediction.R', self.outdir))
         Info("Finished, Find the result in %s_function_prediction.pdf"%self.name)
         
     def combine(self,bgtotal):
@@ -234,8 +234,8 @@ class expr_combine:
         # get the up or down regulate gene list's pavalue in a list, like ["upregualte"]
         if len(self.selected) == 0:
             Info("Both upregualte and downregualte gene list are not closer than the background, please cheak your data or looser the cutoff!")
-            run_cmd('rm ' + self.name + "_pvalues.txt")
-            run_cmd('rm ' + self.name + ".txt")
+            run_cmd('rm "' + self.name + '_pvalues.txt"')
+            run_cmd('rm "' + self.name + '.txt"')
             sys.exit(0)
         else:
             upcounts = 0
@@ -375,8 +375,8 @@ class expr_combine:
                     k += 1
                 p+=1
         outf.close()
-        run_cmd('rm ' + self.name + "_pvalues.txt")
-        run_cmd('rm ' + self.name + ".txt")
+        run_cmd('rm "' + self.name + '_pvalues.txt"')
+        run_cmd('rm "' + self.name + '.txt"')
 
         counts = [upcounts,downcounts]
         return (self.selected, counts, prank, nontarget)

@@ -11,11 +11,11 @@ from pkg_resources import resource_filename
 def getImgdir(outdir):
     Imgdir = os.path.join(outdir, 'motiflogos')
     if os.path.isdir(Imgdir):
-        cmd = 'rm -rf %s'%Imgdir
+        cmd = 'rm -rf "%s"'%Imgdir
         run_cmd(cmd)
         
     Imgdirzip = resource_filename('BETA','templates/motiflogos.zip')
-    cmd = 'unzip ' + Imgdirzip + ' -d ' + outdir
+    cmd = 'unzip "' + Imgdirzip + '" -d "' + outdir + '"'
     run_cmd(cmd)
         
     return Imgdir
@@ -214,13 +214,13 @@ def runmotifcluster_side1(outdir, motif, mistable, cutoff):
     Imgdir = getImgdir(outdir)
     get_mis_oneside(motif, mistable, Imgdir, cutoff)
     output = motif_info2_oneside(mistable, Imgdir)
-    run_cmd('rm %s'%mistable)
+    run_cmd('rm "%s"'%mistable)
     return output
 
 def runmotifcluster_side2(outdir, motif, mistable1, mistable2, cutoff):
     Imgdir = getImgdir(outdir)
     get_mis_twoside(motif, mistable1, mistable2, Imgdir, cutoff)
     output = motif_info2_twoside(mistable1, mistable2, Imgdir)
-    run_cmd('rm %s'%mistable1)
-    run_cmd('rm %s'%mistable2)
+    run_cmd('rm "%s"'%mistable1)
+    run_cmd('rm "%s"'%mistable2)
     return output       

@@ -100,7 +100,7 @@ class Motif_Scan:
                 except KeyError:
                     pass
             associatepeakf.close()
-            run_cmd('mv %s %s'%(self.associate_peaks[i], self.outdir))
+            run_cmd('mv "%s" "%s"'%(self.associate_peaks[i], self.outdir))
             
             peakdist.append(dist)
     
@@ -161,17 +161,17 @@ class Motif_Scan:
                 temp.write('%s\t%s\t%s\n'%(peak[0],str(peak_center),str(peak_center + 1)))
             temp.close()
             location = 'middle'
-            commandline = "awk -v OFS='\t' '{print $1, $2-100, $3+99}' %s > %s"%('select_peak.bed', flag + '_' + location + '.bed')
+            commandline = "awk -v OFS='\t' '{print $1, $2-100, $3+99}' \"%s\" > \"%s\""%('select_peak.bed', flag + '_' + location + '.bed')
             run_cmd(commandline)
             sequences.append(flag + '_' + location + '.bed')
             
             location = 'left'
-            commandline = "awk -v OFS='\t' '{print $1, $2-300, $2-101}' %s > %s"%('select_peak.bed', flag + '_' + location + '.bed')
+            commandline = "awk -v OFS='\t' '{print $1, $2-300, $2-101}' \"%s\" > \"%s\""%('select_peak.bed', flag + '_' + location + '.bed')
             run_cmd(commandline)
             sequences.append(flag + '_' +  location + '.bed')
             
             location = 'right'
-            commandline = "awk -v OFS='\t' '{print $1, $3+100, $3+299}' %s > %s"%('select_peak.bed', flag + '_' + location + '.bed')
+            commandline = "awk -v OFS='\t' '{print $1, $3+100, $3+299}' \"%s\" > \"%s\""%('select_peak.bed', flag + '_' + location + '.bed')
             run_cmd(commandline)
             sequences.append(flag + '_' + location + '.bed')
             Info("get three regions of every peak around the %s genes"%flag)
@@ -181,10 +181,10 @@ class Motif_Scan:
                 outputfasta = sequence.replace('.bed','.fa')
                 self.fastas.append(outputfasta)
                 runfastafrombed(self.genomesequence, sequence, outputfasta)
-                run_cmd('rm %s'%sequence)
+                run_cmd('rm "%s"'%sequence)
             Info("get the fasta format sequence data of the three regions of %s"%flag)
             i += 1
-        run_cmd('rm select_peak.bed')
+        run_cmd('rm "select_peak.bed"')
         
     ######################################
     #part2 Motif Scan and score caculate
@@ -207,9 +207,9 @@ class Motif_Scan:
             motif_ID = 'all'
             prefix = seq.replace('.fa','')
             misout = os.path.join(self.curdir,prefix)
-            commandline = 'misp %s %s %s %s %s'%(inseq,db,p_value,motif_ID,misout)#run mis
+            commandline = 'misp "%s" "%s" %s "%s" "%s"'%(inseq,db,p_value,motif_ID,misout)#run mis
             run_cmd(commandline)
-            run_cmd('rm %s'%inseq)
+            run_cmd('rm "%s"'%inseq)
             scoref = prefix + '_all'
             self.motifscore.append(scoref)
 
@@ -302,7 +302,7 @@ class Motif_Scan:
                                 motifscore[key] = [value]
                         else:
                             continue
-                run_cmd('rm %s'%f)
+                run_cmd('rm "%s"'%f)
                 
             motifs = motifscore.keys()
             mscore = []
@@ -364,12 +364,12 @@ class Motif_Scan:
                     outf.write('%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(motif, species, symbol, DBD, pssm, str("%.2f"%float(tscore)), str("%.2e"%float(pvalue))))
             outf.close()
             FN = fn.split('.')[0].upper() + 'S.' + fn.split('.')[1] #the sorted motif file
-            run_cmd('sort -t "\t" -k7,7g %s > %s'%(fn,FN))
+            run_cmd('sort -t "\t" -k7,7g "%s" > "%s"'%(fn,FN))
             self.FNs.append(FN)
-            run_cmd('rm %s'%fn)
+            run_cmd('rm "%s"'%fn)
             middlescores.append(mscore)
         
-        run_cmd('rm temptest.r')
+        run_cmd('rm "temptest.r"')
         pairfns = [upnon, downnon, pairfn]
         pairs = [upnonf, downnonf, pairf]
         
@@ -432,10 +432,10 @@ class Motif_Scan:
                 f.close()
                 fn = pairfns[k]
                 PAIRFN = fn.split('.')[0].upper() + 'S.' + fn.split('.')[1] 
-                run_cmd('sort -t "\t" -k7,7g %s > %s'%(fn, PAIRFN))
+                run_cmd('sort -t "\t" -k7,7g "%s" > "%s"'%(fn, PAIRFN))
                 self.FNs.append(PAIRFN)
-                run_cmd('rm %s'%fn)
-                run_cmd('rm pairtest.r')
+                run_cmd('rm "%s"'%fn)
+                run_cmd('rm "pairtest.r"')
             k += 1
             
     def out2html(self):
@@ -528,16 +528,16 @@ class Motif_Scan:
         outhtml = open('betamotif.html','w')
         resultdir = os.path.join(self.outdir,'motifresult')
         if os.path.isdir(resultdir):
-            run_cmd('rm -r %s'%resultdir)
-            run_cmd('mkdir %s'%resultdir)
+            run_cmd('rm -r "%s"'%resultdir)
+            run_cmd('mkdir "%s"'%resultdir)
         else:
-            run_cmd('mkdir %s'%resultdir)
+            run_cmd('mkdir "%s"'%resultdir)
         imgdir = os.path.join(resultdir,'img')
         if os.path.isdir(imgdir):
-            run_cmd('rm -r %s'%imgdir)
-            run_cmd('mkdir %s'%imgdir)
+            run_cmd('rm -r "%s"'%imgdir)
+            run_cmd('mkdir "%s"'%imgdir)
         else:
-            run_cmd('mkdir %s'%imgdir)
+            run_cmd('mkdir "%s"'%imgdir)
         
         tabletitle = '\n\
                                     <tr>\n\
@@ -612,7 +612,7 @@ class Motif_Scan:
                     pvalue = motif_class[3]
                     tscore = motif_class[4]
                     img = motif_class[-1]
-                    run_cmd('cp %s %s'%(img, imgdir))
+                    run_cmd('cp "%s" "%s"'%(img, imgdir))
                     imgID = os.path.split(img)[1]
                     img = os.path.join('img',imgID)                  
                     temp = subtemplate%(factorinput,dbdinput,species,pvalue,tscore,img)
@@ -620,9 +620,9 @@ class Motif_Scan:
                 subups.append(subup)
             tabletitleup = tabletitle
             
-            run_cmd('mv %s %s'%('UP_MOTIFS.txt', resultdir))
-            run_cmd('mv %s %s'%('UP_NON_MOTIFS.txt', resultdir))
-            run_cmd('mv %s %s'%(self.name + '_uptarget.txt', self.outdir))
+            run_cmd('mv "%s" "%s"'%('UP_MOTIFS.txt', resultdir))
+            run_cmd('mv "%s" "%s"'%('UP_NON_MOTIFS.txt', resultdir))
+            run_cmd('mv "%s" "%s"'%(self.name + '_uptarget.txt', self.outdir))
         else:
             subups = [nontable,nontable]
             tabletitleup = '<font size="5" color="yellow">This Factor has no Active Function to its target genes, Skipped this part Motif Scan</font>'
@@ -656,16 +656,16 @@ class Motif_Scan:
                     pvalue = motif_class[3]
                     tscore = motif_class[4]
                     img = motif_class[-1]
-                    run_cmd('cp %s %s'%(img, imgdir))
+                    run_cmd('cp "%s" "%s"'%(img, imgdir))
                     imgID = os.path.split(img)[1]
                     img = os.path.join('img',imgID)
                     temp = subtemplate%(factorinput,dbdinput,species,pvalue,tscore,img)
                     subdown += temp
             	subdowns.append(subdown)
             tabletitledown = tabletitle
-            run_cmd('mv %s %s'%('DOWN_MOTIFS.txt', resultdir))
-            run_cmd('mv %s %s'%('DOWN_NON_MOTIFS.txt', resultdir))
-            run_cmd('mv %s %s'%(self.name + '_downtarget.txt', self.outdir))
+            run_cmd('mv "%s" "%s"'%('DOWN_MOTIFS.txt', resultdir))
+            run_cmd('mv "%s" "%s"'%('DOWN_NON_MOTIFS.txt', resultdir))
+            run_cmd('mv "%s" "%s"'%(self.name + '_downtarget.txt', self.outdir))
         else:
             subdowns = [nontable,nontable]
             tabletitledown = '<font size="5" color="yellow">This Factor has no Repressive Function to its target genes, Skipped this part Motif Scan</font>'
@@ -692,17 +692,17 @@ class Motif_Scan:
                 pvalue = motif_class[3]
                 tscore = motif_class[4]
                 img = motif_class[-1]
-                run_cmd('cp %s %s'%(img, imgdir))
+                run_cmd('cp "%s" "%s"'%(img, imgdir))
                 imgID = os.path.split(img)[1]
                 img = os.path.join('img',imgID)
                 temp = subtemplate%(factorinput,dbdinput,species,pvalue,tscore,img)
                 subcompare += temp
             
             tabletitledown = tabletitle
-            run_cmd('mv %s %s'%(self.name + '_downtarget.txt', self.outdir))
+            run_cmd('mv "%s" "%s"'%(self.name + '_downtarget.txt', self.outdir))
             tabletitlecompare = tabletitle
-            run_cmd('mv %s %s'%('UPVSDOWN_MOTIFS.txt', 'DIFFERENTIAL_MOTIF_UP_DOWN.txt'))
-            run_cmd('mv %s %s'%('DIFFERENTIAL_MOTIF_UP_DOWN.txt', resultdir))
+            run_cmd('mv "%s" "%s"'%('UPVSDOWN_MOTIFS.txt', 'DIFFERENTIAL_MOTIF_UP_DOWN.txt'))
+            run_cmd('mv "%s" "%s"'%('DIFFERENTIAL_MOTIF_UP_DOWN.txt', resultdir))
                    
         b = template%(tabletitleup,subups[0],tabletitledown,subdowns[0],tabletitlecompare,subcompare,tabletitleup,subups[1],tabletitledown,subdowns[1])
 
@@ -711,11 +711,11 @@ class Motif_Scan:
  
         jsfile = resource_filename('BETA','templates/script.js')
         cssfile = resource_filename('BETA','templates/styles.css')
-        run_cmd('rm %s'%'NON_MOTIFS.txt')
-        run_cmd('cp %s %s'%(jsfile,resultdir))
-        run_cmd('cp %s %s'%(cssfile,resultdir))
+        run_cmd('rm "%s"'%'NON_MOTIFS.txt')
+        run_cmd('cp "%s" "%s"'%(jsfile,resultdir))
+        run_cmd('cp "%s" "%s"'%(cssfile,resultdir))
         motiflogos = os.path.join(self.outdir,'motiflogos')
-        run_cmd('rm -rf %s'%motiflogos)
-        run_cmd('mv betamotif.html %s'%resultdir)
+        run_cmd('rm -rf "%s"'%motiflogos)
+        run_cmd('mv "betamotif.html" "%s"'%resultdir)
         Info("Done: find motif result in beatmotif.html file")
         Info("Done: find all BETA result in %s"%self.outdir)
