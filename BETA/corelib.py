@@ -13,6 +13,7 @@ def run_cmd(command):
     subpcall (command, shell = True)
 
 def run_pip(command):
+    Info(command)
     command = subprocess.Popen(command,
                                shell = True,
                                stdin=subprocess.PIPE,
