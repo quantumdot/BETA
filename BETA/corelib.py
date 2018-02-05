@@ -10,6 +10,7 @@ def Info(infoStr):
     print "[%s] %s" %(time.strftime('%H:%M:%S'), infoStr)
     
 def run_cmd(command):
+    Info(command)
     subpcall (command, shell = True)
 
 def run_pip(command):
